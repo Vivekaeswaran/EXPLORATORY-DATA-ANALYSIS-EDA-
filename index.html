@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>EDA Dashboard | Data Science Internship Project</title>
+<meta name="description" content="Professional Exploratory Data Analysis Dashboard for Data Science Internship — interactive charts, KPIs, insights."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="7" height="7" rx="2" fill="#2563EB"/><rect x="14" y="3" width="7" height="7" rx="2" fill="#3B82F6"/><rect x="3" y="14" width="7" height="7" rx="2" fill="#60A5FA"/><rect x="14" y="14" width="7" height="7" rx="2" fill="#93C5FD"/></svg></div>
+    <div><div class="brand-name">EDA<span>Pro</span></div><div class="brand-sub">Analytics Dashboard</div></div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-group-label">Navigation</div>
+    <a href="#overview" class="nav-item active" data-sec="overview"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Overview</a>
+    <a href="#kpi" class="nav-item" data-sec="kpi"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>KPI Metrics</a>
+    <a href="#summary" class="nav-item" data-sec="summary"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Dataset Summary</a>
+    <a href="#cleaning" class="nav-item" data-sec="cleaning"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>Data Cleaning</a>
+    <div class="nav-group-label" style="margin-top:8px">Analysis</div>
+    <a href="#univariate" class="nav-item" data-sec="univariate"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2"/><path d="M7 18V9M12 18V6M17 18v-4"/></svg>Univariate</a>
+    <a href="#bivariate" class="nav-item" data-sec="bivariate"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="9" r="3"/><circle cx="15" cy="15" r="3"/><path d="M3 20l5-5M16 8l5-5"/></svg>Bivariate</a>
+    <a href="#multivariate" class="nav-item" data-sec="multivariate"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"/></svg>Multivariate</a>
+    <a href="#insights" class="nav-item" data-sec="insights"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Data Insights</a>
+    <a href="#trends" class="nav-item" data-sec="trends"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>Trends</a>
+    <a href="#deepdive" class="nav-item" data-sec="deepdive"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Deep Dive</a>
+    <a href="#business" class="nav-item" data-sec="business"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Business Insights</a>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="footer-card">
+      <div class="footer-badge">INTERNSHIP PROJECT</div>
+      <div class="footer-name">Data Science EDA</div>
+      <div class="footer-date">June 2024</div>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main" id="main">
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <button class="hamburger" id="hamburger" onclick="toggleSidebar()">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="page-title">Exploratory Data Analysis</div>
+    </div>
+    <div class="topbar-right">
+      <div class="filter-wrap">
+        <label>Dataset</label>
+        <select id="dsSelect" onchange="switchDataset()">
+          <option value="loan">Loan Analytics</option>
+          <option value="retail">Retail Sales</option>
+          <option value="hr">HR Attrition</option>
+        </select>
+      </div>
+      <div class="filter-wrap">
+        <label>Period</label>
+        <select id="periodSelect" onchange="refreshAll()">
+          <option value="all">All Periods</option>
+          <option value="h1">H1 2024</option>
+          <option value="h2">H2 2023</option>
+        </select>
+      </div>
+      <button class="btn-refresh" onclick="refreshAll()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+        Refresh
+      </button>
+      <div class="topbar-avatar">DS</div>
+    </div>
+  </header>
+
+  <div class="page-content">
+
+    <!-- SECTION 1: OVERVIEW HEADER -->
+    <section id="overview" class="section">
+      <div class="hero-banner">
+        <div class="hero-left">
+          <div class="hero-tag"><span class="tag-dot"></span>INTERNSHIP PROJECT · DATA SCIENCE</div>
+          <h1 class="hero-title">Exploratory Data<br/><span class="hero-highlight">Analysis Dashboard</span></h1>
+          <p class="hero-desc">A comprehensive, interactive EDA dashboard built for data science internship submission. Includes statistical summaries, cleaning analytics, visualizations, and AI-driven business insights.</p>
+          <div class="hero-chips">
+            <span class="chip blue">📊 12,847 Records</span>
+            <span class="chip green">✅ 87.3% Quality</span>
+            <span class="chip orange">⚠️ 142 Outliers</span>
+            <span class="chip purple">🔗 0.87 Max Corr</span>
+          </div>
+        </div>
+        <div class="hero-right">
+          <div class="overview-card">
+            <div class="ov-title">Dataset Overview</div>
+            <div class="ov-grid">
+              <div class="ov-item"><span class="ov-lbl">Dataset</span><span class="ov-val" id="ov-name">Loan Analytics</span></div>
+              <div class="ov-item"><span class="ov-lbl">Records</span><span class="ov-val" id="ov-records">12,847</span></div>
+              <div class="ov-item"><span class="ov-lbl">Features</span><span class="ov-val" id="ov-features">24</span></div>
+              <div class="ov-item"><span class="ov-lbl">Missing</span><span class="ov-val warn" id="ov-missing">1,243</span></div>
+              <div class="ov-item"><span class="ov-lbl">Duplicates</span><span class="ov-val warn" id="ov-dupes">89</span></div>
+              <div class="ov-item"><span class="ov-lbl">Quality</span><span class="ov-val good" id="ov-quality">87.3%</span></div>
+            </div>
+            <div class="quality-bar-wrap">
+              <div class="quality-bar-label"><span>Data Quality</span><span id="qb-pct">87.3%</span></div>
+              <div class="quality-bar-track"><div class="quality-bar-fill" id="qb-fill" style="width:87.3%"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: KPI CARDS -->
+    <section id="kpi" class="section">
+      <div class="section-header">
+        <h2 class="section-title">KPI Metrics</h2>
+        <span class="section-tag">Live</span>
+      </div>
+      <div class="kpi-row">
+        <div class="kpi-card" id="kc-records">
+          <div class="kpi-top"><span class="kpi-icon blue-icon">📁</span><span class="kpi-trend up">↑ 8.4%</span></div>
+          <div class="kpi-value" id="kv-records">12,847</div>
+          <div class="kpi-label">Total Records</div>
+          <div class="kpi-bar"><div class="kpi-bar-fill" style="width:85%;background:linear-gradient(90deg,#2563EB,#60A5FA)"></div></div>
+        </div>
+        <div class="kpi-card" id="kc-features">
+          <div class="kpi-top"><span class="kpi-icon teal-icon">🏷️</span><span class="kpi-trend up">+3 new</span></div>
+          <div class="kpi-value" id="kv-features">24</div>
+          <div class="kpi-label">Total Features</div>
+          <div class="kpi-bar"><div class="kpi-bar-fill" style="width:60%;background:linear-gradient(90deg,#0D9488,#5EEAD4)"></div></div>
+        </div>
+        <div class="kpi-card" id="kc-missing">
+          <div class="kpi-top"><span class="kpi-icon orange-icon">❓</span><span class="kpi-trend down">9.7% rate</span></div>
+          <div class="kpi-value" id="kv-missing">1,243</div>
+          <div class="kpi-label">Missing Values</div>
+          <div class="kpi-bar"><div class="kpi-bar-fill" style="width:9.7%;background:linear-gradient(90deg,#F97316,#FCD34D)"></div></div>
+        </div>
+        <div class="kpi-card" id="kc-dupes">
+          <div class="kpi-top"><span class="kpi-icon red-icon">🔁</span><span class="kpi-trend down">0.69%</span></div>
+          <div class="kpi-value" id="kv-dupes">89</div>
+          <div class="kpi-label">Duplicate Records</div>
+          <div class="kpi-bar"><div class="kpi-bar-fill" style="width:5%;background:linear-gradient(90deg,#EF4444,#F87171)"></div></div>
+        </div>
+        <div class="kpi-card quality-card" id="kc-quality">
+          <div class="kpi-top"><span class="kpi-icon green-icon">✅</span><span class="kpi-trend good-trend">Excellent</span></div>
+          <div class="kpi-value green-val" id="kv-quality">87.3%</div>
+          <div class="kpi-label">Data Quality Score</div>
+          <div class="kpi-bar"><div class="kpi-bar-fill" style="width:87.3%;background:linear-gradient(90deg,#16A34A,#4ADE80)"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: DATASET SUMMARY -->
+    <section id="summary" class="section">
+      <div class="section-header">
+        <h2 class="section-title">Dataset Summary</h2>
+        <span class="section-tag blue-tag">Schema</span>
+      </div>
+      <div class="grid-2-1">
+        <div class="card">
+          <div class="card-header"><h3 class="card-title">Statistical Summary Table</h3><span class="badge">Numeric Columns</span></div>
+          <div class="table-wrap" id="statsTable"></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><h3 class="card-title">Data Type Distribution</h3><span class="badge">Schema</span></div>
+          <canvas id="dtypeChart" height="200"></canvas>
+          <div class="dtype-legend" id="dtypeLegend"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: DATA CLEANING -->
+    <section id="cleaning" class="section">
+      <div class="section-header">
+        <h2 class="section-title">Data Cleaning Analysis</h2>
+        <span class="section-tag orange-tag">Quality</span>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header"><h3 class="card-title">Missing Value Heatmap</h3><span class="badge">Per Column</span></div>
+          <div id="missingHeatmap"></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><h3 class="card-title">Null Value Distribution</h3><span class="badge">% Missing</span></div>
+          <canvas id="nullChart" height="220"></canvas>
+        </div>
+      </div>
+      <div class="grid-2" style="margin-top:20px">
+        <div class="card">
+          <div class="card-header"><h3 class="card-title">Duplicate Data Analysis</h3><span class="badge">Row Level</span></div>
+          <canvas id="dupeChart" height="200"></canvas>
+        </div>
+        <div class="card">
+          <div class="card-header"><h3 class="card-title">Data Quality Gauge</h3><span class="badge">Score</span></div>
+          <div class="gauge-wrap">
+            <canvas id="gaugeCanvas" width="240" height="140"></canvas>
+            <div class="gauge-val"><span id="gaugeNum">87.3</span><small>%</small></div>
+            <div class="gauge-status">Excellent — Production Ready</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 5: UNIVARIATE -->
+    <section id="univariate" class="section">
+      <div class="section-header">
+        <h2 class="section-title">Univariate Analysis</h2>
+        <span class="section-tag teal-tag">Single Variable</span>
+      </div>
+      <div class="filter-bar">
+        <div class="fbar-item"><label>Feature</label>
+          <select id="uniFeature" onchange="buildUniCharts()">
+            <option value="age">Age</option><option value="income">Income</option>
+            <option value="score">Credit Score</option><option value="loan">Loan Amount</option>
+          </select>
+        </div>
+        <div class="fbar-item"><label>Bins</label>
+          <select id="uniBins" onchange="buildUniCharts()">
+            <option value="10">10 Bins</option><option value="15">15 Bins</option><option value="20">20 Bins</option>
+          </select>
+        </div>
+      </div>
+      <div class="grid-3">
+        <div class="card"><div class="card-header"><h3 class="card-title">Histogram</h3><span class="badge">Frequency</span></div><canvas id="histChart" height="210"></canvas></div>
+        <div class="card"><div class="card-header"><h3 class="card-title">Box Plot</h3><span class="badge">Spread</span></div><canvas id="boxChart" height="210"></canvas></div>
+        <div class="card"><div class="card-header"><h3 class="card-title">Density Distribution</h3><span class="badge">KDE</span></div><canvas id="densityChart" height="210"></canvas></div>
+      </div>
+    </section>
+
+    <!-- SECTION 6: BIVARIATE -->
+    <section id="bivariate" class="section">
+      <div class="section-header">
+        <h2 class="section-title">Bivariate Analysis</h2>
+        <span class="section-tag purple-tag">Two Variables</span>
+      </div>
+      <div class="filter-bar">
+        <div class="fbar-item"><label>X Axis</label>
+          <select id="xAxis" onchange="buildBiCharts()">
+            <option value="income">Income</option><option value="age">Age</option><option value="score">Credit Score</option>
+          </select>
+        </div>
+        <div class="fbar-item"><label>Y Axis</label>
+          <select id="yAxis" onchange="buildBiCharts()">
+            <option value="loan">Loan Amount</option><option value="income">Income</option><option value="score">Credit Score</option>
+          </select>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="card"><div class="card-header"><h3 class="card-title">Scatter Plot</h3><span class="badge">Correlation</span></div><canvas id="scatterChart" height="240"></canvas></div>
+        <div class="card"><div class="card-header"><h3 class="card-title">Correlation Matrix</h3><span class="badge">Pearson r</span></div><div id="corrMatrix"></div></div>
+      </div>
+      <div class="card" style="margin-top:20px">
+        <div class="card-header"><h3 class="card-title">Pair Plot Visualization</h3><span class="badge">Multi-Feature</span></div>
+        <div class="pairplot-grid" id="pairGrid"></div>
+      </div>
+    </section>
+
+    <!-- SECTION: TIME SERIES TRENDS -->
+    <section id="trends" class="section">
+      <div class="section-header">
+        <h2 class="section-title">Time-Series Trend Analysis</h2>
+        <span class="section-tag blue-tag">Monthly</span>
+      </div>
+      <div class="card">
+        <div class="card-header"><h3 class="card-title">Monthly Loan Disbursement Trend</h3><span class="badge">12-Month View</span></div>
+        <canvas id="trendLine" height="220"></canvas>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header"><h3 class="card-title">Loan Category Breakdown</h3><span class="badge">Stacked</span></div>
+          <canvas id="stackedBar" height="230"></canvas>
+        </div>
+        <div class="card">
+          <div class="card-header"><h3 class="card-title">Loan Status Distribution</h3><span class="badge">Portfolio</span></div>
+          <canvas id="loanStatusDonut" height="230"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 7: MULTIVARIATE -->
+    <section id="multivariate" class="section">
+      <div class="section-header">
+        <h2 class="section-title">Multivariate Analysis</h2>
+        <span class="section-tag blue-tag">Multi Variable</span>
+      </div>
+      <div class="grid-2">
+        <div class="card"><div class="card-header"><h3 class="card-title">Feature Interaction Visualization</h3><span class="badge">Bubble Chart</span></div><canvas id="bubbleChart" height="260"></canvas></div>
+        <div class="card"><div class="card-header"><h3 class="card-title">Advanced Relationship Analysis</h3><span class="badge">Radar</span></div><canvas id="radarChart" height="260"></canvas></div>
+      </div>
+    </section>
+
+    <!-- SECTION: DISTRIBUTION DEEP DIVE -->
+    <section id="deepdive" class="section">
+      <div class="section-header">
+        <h2 class="section-title">Distribution Deep Dive</h2>
+        <span class="section-tag teal-tag">Advanced</span>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header"><h3 class="card-title">Cumulative Distribution (CDF)</h3><span class="badge">Income</span></div>
+          <canvas id="cdfChart" height="230"></canvas>
+        </div>
+        <div class="card">
+          <div class="card-header"><h3 class="card-title">Age Group vs Avg Loan Amount</h3><span class="badge">Grouped Bar</span></div>
+          <canvas id="ageGroupBar" height="230"></canvas>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><h3 class="card-title">Credit Score Band Analysis</h3><span class="badge">Default Rate by Band</span></div>
+        <canvas id="scoreDefaultLine" height="200"></canvas>
+      </div>
+    </section>
+
+    <!-- SECTION 8: DATA INSIGHTS -->
+    <section id="insights" class="section">
+      <div class="section-header">
+        <h2 class="section-title">Data Insights Panel</h2>
+        <span class="section-tag green-tag">Auto-Detected</span>
+      </div>
+      <div class="grid-3">
+        <div class="card insight-card">
+          <div class="card-header"><span class="insight-icon">📈</span><h3 class="card-title">Top Trends</h3></div>
+          <ul class="insight-list" id="trendList"></ul>
+        </div>
+        <div class="card insight-card">
+          <div class="card-header"><span class="insight-icon">🔍</span><h3 class="card-title">Key Observations</h3></div>
+          <ul class="insight-list" id="obsList"></ul>
+        </div>
+        <div class="card insight-card">
+          <div class="card-header"><span class="insight-icon">⚠️</span><h3 class="card-title">Outlier Detection</h3></div>
+          <ul class="insight-list" id="outlierList"></ul>
+        </div>
+      </div>
+      <div class="grid-2" style="margin-top:20px">
+        <div class="card"><div class="card-header"><h3 class="card-title">Outlier Detection Chart</h3><span class="badge">Z-Score</span></div><canvas id="outlierChart" height="220"></canvas></div>
+        <div class="card"><div class="card-header"><h3 class="card-title">Feature Importance</h3><span class="badge">ML Score</span></div><canvas id="featImpChart" height="220"></canvas></div>
+      </div>
+    </section>
+
+    <!-- SECTION 9: INTERACTIVE FILTERS -->
+    <section id="filters-section" class="section">
+      <div class="section-header">
+        <h2 class="section-title">Interactive Filters</h2>
+        <span class="section-tag orange-tag">Real-time</span>
+      </div>
+      <div class="filter-panel">
+        <div class="fp-row">
+          <div class="fp-group"><label>Category</label>
+            <select id="catFilter" onchange="applyFilters()">
+              <option value="all">All Categories</option><option value="default">Default</option><option value="no_default">No Default</option>
+            </select>
+          </div>
+          <div class="fp-group"><label>Age Group</label>
+            <select id="ageFilter" onchange="applyFilters()">
+              <option value="all">All Ages</option><option value="young">18–30</option><option value="mid">31–50</option><option value="senior">51+</option>
+            </select>
+          </div>
+          <div class="fp-group"><label>Income Range</label>
+            <select id="incFilter" onchange="applyFilters()">
+              <option value="all">All Incomes</option><option value="low">Low (&lt;30K)</option><option value="mid">Mid (30–80K)</option><option value="high">High (&gt;80K)</option>
+            </select>
+          </div>
+          <div class="fp-group"><label>Credit Score</label>
+            <select id="scoreFilter" onchange="applyFilters()">
+              <option value="all">All Scores</option><option value="poor">Poor (&lt;580)</option><option value="fair">Fair (580–670)</option><option value="good">Good (670+)</option>
+            </select>
+          </div>
+          <button class="btn-reset" onclick="resetFilters()">Reset Filters</button>
+        </div>
+        <div id="filterResult" class="filter-result"></div>
+      </div>
+      <div class="card" style="margin-top:20px"><div class="card-header"><h3 class="card-title">Filtered Data Distribution</h3><span class="badge">Dynamic</span></div><canvas id="filteredChart" height="220"></canvas></div>
+    </section>
+
+    <!-- SECTION 10: BUSINESS INSIGHTS -->
+    <section id="business" class="section">
+      <div class="section-header">
+        <h2 class="section-title">Final Business Insights</h2>
+        <span class="section-tag blue-tag">Presentation</span>
+      </div>
+      <div class="grid-3">
+        <div class="biz-card findings">
+          <div class="biz-icon">🎯</div>
+          <h3 class="biz-title">Key Findings</h3>
+          <ul id="bizFindings" class="biz-list"></ul>
+        </div>
+        <div class="biz-card recs">
+          <div class="biz-icon">💡</div>
+          <h3 class="biz-title">Recommendations</h3>
+          <ul id="bizRecs" class="biz-list"></ul>
+        </div>
+        <div class="biz-card scope">
+          <div class="biz-icon">🚀</div>
+          <h3 class="biz-title">Future Scope</h3>
+          <ul id="bizScope" class="biz-list"></ul>
+        </div>
+      </div>
+      <div class="summary-banner">
+        <div class="sb-item"><span class="sb-num">87.3%</span><span class="sb-lbl">Data Quality</span></div>
+        <div class="sb-div"></div>
+        <div class="sb-item"><span class="sb-num">0.87</span><span class="sb-lbl">Max Correlation</span></div>
+        <div class="sb-div"></div>
+        <div class="sb-item"><span class="sb-num">142</span><span class="sb-lbl">Outliers Found</span></div>
+        <div class="sb-div"></div>
+        <div class="sb-item"><span class="sb-num">3</span><span class="sb-lbl">Skewed Columns</span></div>
+        <div class="sb-div"></div>
+        <div class="sb-item"><span class="sb-num">24</span><span class="sb-lbl">Features Analyzed</span></div>
+      </div>
+    </section>
+
+  </div><!-- /page-content -->
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>
